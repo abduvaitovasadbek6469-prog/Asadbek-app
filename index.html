@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f766e">
+  <title>Asadbek 2.0</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<main>
+    <div class="topbar">
+      <div class="brand">
+        <h1>Asadbek 2.0</h1>
+      </div>
+    </div>
+
+
+    <div class="layout">
+      <aside class="panel list-panel">
+        <div class="panel-title">
+          <h2>Ro'yxatlar</h2>
+          <div class="panel-tools">
+            <span class="mini-count" id="miniCount">0 ta</span>
+            <button class="icon-button" id="addHabitBtn" type="button" title="Yangi odat qo'shish">+</button>
+          </div>
+        </div>
+        <div class="habit-list" id="habitList"></div>
+        <div class="empty-state" id="emptyState">Hali ro'yxat yo'q. Yangi odat yoki maqsad qo'shish uchun + tugmasini bosing.</div>
+      </aside>
+
+      <section class="panel detail-panel">
+        <div class="selected-head">
+          <div class="selected-title">
+            <h2 id="selectedName">Namozni boshlash</h2>
+          </div>
+          <div class="detail-tools">
+            <div class="started">
+              <span id="dateLabel">Boshlangan sana</span>
+              <strong id="startedLabel">28.06.2026 10:24</strong>
+            </div>
+            <button class="detail-menu-button" id="detailMenuBtn" type="button" aria-label="Bo'limlar menyusi">
+              <span></span><span></span><span></span>
+            </button>
+            <div class="detail-action-menu" id="detailMenu">
+              <button class="menu-action" id="restartMenuBtn" type="button">Qayta boshlash</button>
+              <button class="menu-action danger-text" id="breakMenuBtn" type="button">Buzildi</button>
+              <button class="menu-action" id="historyMenuBtn" type="button">Tarix</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="timer-grid" aria-label="Odat davomiyligi">
+          <div class="time-box years-box"><div><strong id="years">0</strong><span>yil</span></div></div>
+          <div class="time-box months-box"><div><strong id="months">0</strong><span>oy</span></div></div>
+          <div class="time-box days-box"><div><strong id="days">0</strong><span>kun</span></div></div>
+          <div class="time-box hours-box"><div><strong id="hours">0</strong><span>soat</span></div></div>
+          <div class="time-box minutes-box"><div><strong id="minutes">0</strong><span>minut</span></div></div>
+          <div class="time-box seconds-box"><div><strong id="seconds">0</strong><span>sekund</span></div></div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="metric">
+            <label id="currentMetricLabel">Hozirgi davomiylik</label>
+            <div id="currentSummary">Hisoblanmoqda...</div>
+          </div>
+          <div class="metric">
+            <label id="bestMetricLabel">Eng uzun rekord</label>
+            <div id="bestRecord">Hali rekord yo'q</div>
+          </div>
+        </div>
+
+        <details class="reason-menu" id="reasonMenu">
+          <summary><span>Odat boshlash sababi</span><span class="reason-preview" id="reasonPreview">Sababni ko'rish</span></summary>
+          <div class="reason-body" id="selectedReason"></div>
+        </details>
+
+        <section class="calendar-card" aria-label="Odat kalendari">
+          <div class="calendar-head">
+            <div class="calendar-title">
+              <strong id="calendarTitle">Odat kalendari</strong>
+              <span>Har kuni bajarilgan yoki bajarilmaganini belgilab boring.</span>
+            </div>
+            <div class="calendar-nav">
+              <button id="prevMonthBtn" type="button" aria-label="Oldingi oy">&lt;</button>
+              <button id="nextMonthBtn" type="button" aria-label="Keyingi oy">&gt;</button>
+            </div>
+          </div>
+          <div class="calendar-month" id="calendarMonthLabel">Iyun 2026</div>
+          <div class="calendar-weekdays" aria-hidden="true">
+            <span>Du</span><span>Se</span><span>Ch</span><span>Pa</span><span>Ju</span><span>Sh</span><span>Ya</span>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+          <div class="calendar-report" id="calendarReport">
+            <div class="calendar-report-head">
+              <span>Odatga erishuvchanlik</span>
+              <div class="calendar-stats">
+                <div class="stat-box"><strong id="doneStat">0</strong><span>Bajarildi</span></div>
+                <div class="stat-box"><strong id="missedStat">0</strong><span>Bajarilmadi</span></div>
+                <div class="stat-box"><strong id="successStat">0%</strong><span>Natija</span></div>
+              </div>
+              <div class="goal-road" id="goalRoad">
+                <div class="goal-road-head"><span>Start</span><strong id="goalRoadLabel">0%</strong><span>Finish</span></div>
+                <div class="goal-path" id="goalPath"></div>
+                <div class="goal-progress-bar"><span id="goalProgressBar"></span></div>
+              </div>
+            </div>
+            <p><strong id="reportDate">Bugungi hisobot</strong> <span class="status-pill" id="reportStatus">Belgilanmagan</span></p>
+            <p id="reportNote">Kalendar ichidan biror sanani tanlang.</p>
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="habitDialog">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <h2 id="formTitle">Yangi odat qo'shish</h2>
+          <p id="formHint">Odat nomi, boshlangan sanasi, rangi, belgisi va sababini kiriting.</p>
+        </div>
+        <button class="close-button" id="closeHabitDialog" type="button" title="Yopish">×</button>
+      </div>
+
+      <form id="habitForm">
+        <div class="form-error" id="formError"></div>
+
+        <div class="mode-switch" id="entryModeSwitch" aria-label="Ro'yxat turi">
+          <button class="active" id="habitModeBtn" type="button">Odat boshlash</button>
+          <button id="goalModeBtn" type="button">Maqsad boshlash</button>
+        </div>
+
+        <label>
+          <span id="nameFieldLabel">Odat nomi</span>
+          <input id="habitNameInput" autocomplete="off" placeholder="Masalan: Har kuni kitob o'qish">
+        </label>
+
+        <label>
+          <span id="startDateLabel">Boshlangan sana</span>
+          <input id="habitDateInput" type="datetime-local">
+        </label>
+
+        <label class="goal-field" id="goalEndField">
+          Maqsad tugash sanasi
+          <input id="goalEndInput" type="datetime-local">
+        </label>
+
+        <div class="field-label">
+          Rang tanlang
+          <div class="choice-grid" id="colorChooser"></div>
+        </div>
+
+        <div class="field-label">
+          Belgi tanlang
+          <div class="choice-grid icons" id="iconChooser"></div>
+        </div>
+
+        <label>
+          Sabab
+          <textarea id="habitReasonInput" placeholder="Nega bu odatni boshlayapsiz yoki davom ettiryapsiz?"></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button class="primary" id="saveHabitBtn" type="submit">Qo'shish</button>
+          <button class="ghost" id="cancelHabitBtn" type="button">Bekor qilish</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog id="breakDialog">
+    <form class="modal" method="dialog">
+      <h3>Bu safar nima sabab bo'ldi?</h3>
+      <textarea id="breakReason" placeholder="Masalan: vaqtni o'tkazib yubordim, dangasalik qildim, telefon chalg'itdi..."></textarea>
+      <div class="form-actions">
+        <button class="ghost" value="cancel">Bekor qilish</button>
+        <button class="danger" id="confirmBreak" value="default">Taymerni yangilash</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="historyDialog">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <h2>Tarix</h2>
+          <p>Tanlangan odat bo'yicha saqlangan harakatlar.</p>
+        </div>
+        <div class="modal-tools">
+          <button class="clear-button" id="clearHistoryBtn" type="button" title="Tarixni tozalash" aria-label="Tarixni tozalash">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 15H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          </button>
+          <button class="close-button" id="closeHistoryDialog" type="button" title="Yopish">×</button>
+        </div>
+      </div>
+      <div class="history-list" id="historyList"></div>
+    </div>
+  </dialog>
+
+  <dialog id="dayDialog">
+    <form class="modal" method="dialog">
+      <div class="modal-head">
+        <div>
+          <h2 id="dayDialogTitle">Kun hisobotini yozish</h2>
+          <p id="dayDialogHint">Bu kun odat qanday bo'lganini belgilang.</p>
+        </div>
+        <button class="close-button" id="closeDayDialog" type="button" title="Yopish">×</button>
+      </div>
+      <div class="day-actions">
+        <button class="status-choice done" id="dayDoneBtn" type="button">✓ Bajarildi</button>
+        <button class="status-choice missed" id="dayMissedBtn" type="button">× Bajarilmadi</button>
+      </div>
+      <label>
+        Izoh
+        <textarea id="dayNoteInput" placeholder="Bugun nima bo'ldi? Qanday bajardingiz yoki nima sababdan bajarilmadi?"></textarea>
+      </label>
+      <div class="form-actions">
+        <button class="primary" id="saveDayBtn" value="default">Saqlash</button>
+        <button class="ghost" value="cancel">Bekor qilish</button>
+      </div>
+    </form>
+  </dialog>
+  <script type="module" src="./app.js?v=7"></script>
+</body>
+</html>
