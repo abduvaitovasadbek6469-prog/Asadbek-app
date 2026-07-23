@@ -3,10 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0f766e">
+  <meta name="theme-color" content="#17130f">
   <title>Asadbek 2.0</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@500;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css?v=48">
 </head>
 <body>
 <main>
@@ -14,6 +17,15 @@
       <div class="brand">
         <h1>Asadbek 2.0</h1>
       </div>
+      <button class="theme-toggle" id="themeToggleBtn" type="button" title="Rejimni almashtirish" aria-label="Rejimni almashtirish">
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
+        </svg>
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+      </button>
     </div>
 
 
@@ -30,7 +42,12 @@
         <div class="empty-state" id="emptyState">Hali ro'yxat yo'q. Yangi odat yoki maqsad qo'shish uchun + tugmasini bosing.</div>
       </aside>
 
-      <section class="panel detail-panel">
+      <nav class="workspace-menu" aria-label="Asosiy bo'limlar">
+        <button class="workspace-tab active" id="plansMenuBtn" type="button">Rejalar</button>
+        <button class="workspace-tab" id="challengesMenuBtn" type="button">Chelenchlar</button>
+      </nav>
+
+      <section class="panel detail-panel" id="plansPanel">
         <div class="selected-head">
           <div class="selected-title">
             <h2 id="selectedName">Namozni boshlash</h2>
@@ -51,7 +68,7 @@
           </div>
         </div>
 
-        <div class="timer-grid" aria-label="Odat davomiyligi">
+        <div class="timer-grid" id="timerGrid" aria-label="Odat davomiyligi">
           <div class="time-box years-box"><div><strong id="years">0</strong><span>yil</span></div></div>
           <div class="time-box months-box"><div><strong id="months">0</strong><span>oy</span></div></div>
           <div class="time-box days-box"><div><strong id="days">0</strong><span>kun</span></div></div>
@@ -71,45 +88,151 @@
           </div>
         </div>
 
-        <details class="reason-menu" id="reasonMenu">
-          <summary><span>Odat boshlash sababi</span><span class="reason-preview" id="reasonPreview">Sababni ko'rish</span></summary>
-          <div class="reason-body" id="selectedReason"></div>
-        </details>
+        <div class="commitment-tabs">
+          <details class="reason-menu" id="reasonMenu">
+            <summary><span>Odat boshlash sababi</span><span class="reason-preview" id="reasonPreview">Sababni ko'rish</span></summary>
+            <div class="reason-body" id="selectedReason"></div>
+          </details>
 
-        <section class="calendar-card" aria-label="Odat kalendari">
-          <div class="calendar-head">
-            <div class="calendar-title">
-              <strong id="calendarTitle">Odat kalendari</strong>
-              <span>Har kuni bajarilgan yoki bajarilmaganini belgilab boring.</span>
+          <details class="rules-menu" id="rulesMenu" open>
+            <summary><span>Qonun qoidalar</span><span class="reason-preview" id="rulesPreview">0 ta qoida</span></summary>
+            <div class="rules-body">
+              <div class="rules-list" id="rulesList"></div>
+              <button class="rule-add-inline" id="addRuleFromDetailBtn" type="button">+</button>
             </div>
-            <div class="calendar-nav">
-              <button id="prevMonthBtn" type="button" aria-label="Oldingi oy">&lt;</button>
-              <button id="nextMonthBtn" type="button" aria-label="Keyingi oy">&gt;</button>
+          </details>
+
+          <details class="penalty-menu" id="penaltyJournalMenu">
+            <summary><span>Jazolar jurnali</span><span class="reason-preview" id="penaltyJournalPreview">0 ta ochiq</span></summary>
+            <div class="penalty-body">
+              <div class="penalty-journal-list" id="penaltyJournalList"></div>
             </div>
-          </div>
-          <div class="calendar-month" id="calendarMonthLabel">Iyun 2026</div>
-          <div class="calendar-weekdays" aria-hidden="true">
-            <span>Du</span><span>Se</span><span>Ch</span><span>Pa</span><span>Ju</span><span>Sh</span><span>Ya</span>
-          </div>
-          <div class="calendar-grid" id="calendarGrid"></div>
-          <div class="calendar-report" id="calendarReport">
-            <div class="calendar-report-head">
-              <span>Odatga erishuvchanlik</span>
-              <div class="calendar-stats">
-                <div class="stat-box"><strong id="doneStat">0</strong><span>Bajarildi</span></div>
-                <div class="stat-box"><strong id="missedStat">0</strong><span>Bajarilmadi</span></div>
-                <div class="stat-box"><strong id="successStat">0%</strong><span>Natija</span></div>
+          </details>
+        </div>
+
+        <details class="calendar-menu" id="calendarMenu" open>
+          <summary><span id="calendarSummaryTitle">Odat kalendari</span></summary>
+          <section class="calendar-card" aria-label="Odat kalendari">
+            <div class="calendar-head">
+              <div class="calendar-title">
+                <strong id="calendarTitle">Odat kalendari</strong>
+                <span>Har kuni bajarilgan yoki bajarilmaganini belgilab boring.</span>
               </div>
-              <div class="goal-road" id="goalRoad">
-                <div class="goal-road-head"><span>Start</span><strong id="goalRoadLabel">0%</strong><span>Finish</span></div>
-                <div class="goal-path" id="goalPath"></div>
-                <div class="goal-progress-bar"><span id="goalProgressBar"></span></div>
+              <div class="calendar-nav">
+                <button id="prevMonthBtn" type="button" aria-label="Oldingi oy">&lt;</button>
+                <button id="nextMonthBtn" type="button" aria-label="Keyingi oy">&gt;</button>
               </div>
             </div>
-            <p><strong id="reportDate">Bugungi hisobot</strong> <span class="status-pill" id="reportStatus">Belgilanmagan</span></p>
-            <p id="reportNote">Kalendar ichidan biror sanani tanlang.</p>
+            <div class="calendar-month" id="calendarMonthLabel">Iyun 2026</div>
+            <div class="calendar-weekdays" aria-hidden="true">
+              <span>Du</span><span>Se</span><span>Ch</span><span>Pa</span><span>Ju</span><span>Sh</span><span>Ya</span>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="calendar-report" id="calendarReport">
+              <div class="calendar-report-head">
+                <span>Odatga erishuvchanlik</span>
+                <div class="calendar-stats">
+                  <div class="stat-box"><strong id="doneStat">0</strong><span>Bajarildi</span></div>
+                  <div class="stat-box"><strong id="missedStat">0</strong><span>Bajarilmadi</span></div>
+                  <div class="stat-box"><strong id="successStat">0%</strong><span>Natija</span></div>
+                </div>
+                <div class="goal-road" id="goalRoad">
+                  <div class="goal-road-head"><span>Start</span><strong id="goalRoadLabel">0%</strong><span>Finish</span></div>
+                  <div class="goal-path" id="goalPath"></div>
+                  <div class="goal-progress-bar"><span id="goalProgressBar"></span></div>
+                </div>
+              </div>
+              <p><strong id="reportDate">Bugungi hisobot</strong> <span class="status-pill" id="reportStatus">Belgilanmagan</span></p>
+              <p id="reportNote">Kalendar ichidan biror sanani tanlang.</p>
+            </div>
+          </section>
+        </details>
+      </section>
+
+      <section class="panel challenges-panel hidden" id="challengesPanel" aria-label="Chelenchlar">
+        <div class="challenge-shell">
+          <section class="challenge-home" id="challengeHome">
+            <div class="challenge-home-head">
+              <h2>Chelenjlar ro'yxati</h2>
+              <span id="challengeSummaryCount">0 ta</span>
+            </div>
+            <div class="challenge-list challenge-home-list" id="challengeList"></div>
+            <button class="challenge-add-button" id="openChallengeFormBtn" type="button" title="Yangi chelenj qo'shish">+</button>
+          </section>
+
+          <div class="challenge-builder hidden" id="challengeBuilder">
+            <form class="challenge-form" id="challengeForm">
+              <div class="challenge-form-head">
+                <h2 id="challengeFormTitle">Chelenj yaratish</h2>
+              </div>
+              <div class="form-error" id="challengeError"></div>
+
+              <label>
+                Kategoriya uchun harf
+                <input id="challengeLetterInput" autocomplete="off" readonly placeholder="Harf tanlang">
+              </label>
+
+              <label>
+                Chelenj nomi
+                <input id="challengeNameInput" autocomplete="off" placeholder="Masalan: Namoz o'qish">
+              </label>
+
+              <div class="field-label">
+                Chelenjni bajarish uchun muddat
+                <div class="duration-grid">
+                  <label><span>Kun</span><input id="challengeDaysInput" type="number" min="0" value="0"></label>
+                  <label><span>Soat</span><input id="challengeHoursInput" type="number" min="0" max="23" value="0"></label>
+                  <label><span>Minut</span><input id="challengeMinutesInput" type="number" min="0" max="59" value="0"></label>
+                </div>
+              </div>
+
+              <div class="field-label">
+                Ko'rsatkichlarni tanlash
+                <div class="indicator-options" id="challengeMetricOptions">
+                  <button class="active" type="button" data-metric="time">Vaqti</button>
+                  <button type="button" data-metric="count">Soni</button>
+                  <button type="button" data-metric="value">Qiymati</button>
+                </div>
+              </div>
+
+              <label class="metric-field" id="metricTimeField">
+                Mashg'ulot vaqti
+                <div class="duration-grid two">
+                  <label><span>Soat</span><input id="metricHoursInput" type="number" min="0" value="0"></label>
+                  <label><span>Minut</span><input id="metricMinutesInput" type="number" min="0" max="59" value="0"></label>
+                </div>
+              </label>
+
+              <label class="metric-field hidden" id="metricCountField">
+                Soni
+                <input id="metricCountInput" type="number" min="1" value="1" placeholder="Masalan: 3">
+              </label>
+
+              <label class="metric-field hidden" id="metricValueField">
+                Qiymati
+                <input id="metricValueInput" type="number" min="0" step="1000" value="0" placeholder="Masalan: 5000">
+              </label>
+
+              <label class="challenge-guide-field">
+                Chelench bajarish yo'riqnomasi
+                <textarea id="challengeGuideInput" placeholder="Chelenjni qanday tartibda bajarish kerak? Shartlari, vaqti, istisnolari yoki o'zingizga eslatmalarni shu yerga yozing."></textarea>
+              </label>
+
+              <div class="challenge-form-actions">
+                <button class="primary challenge-save" id="saveChallengeBtn" type="submit">Chelenjni saqlash</button>
+                <button class="ghost challenge-cancel" id="cancelChallengeBtn" type="button">Bekor qilish</button>
+              </div>
+            </form>
+
+            <aside class="challenge-side-panel" aria-label="Kategoriya harflari">
+              <div class="alphabet-panel">
+                <h3>Harflar</h3>
+                <p>Mavjud kategoriyalardan birini tanlang.</p>
+                <div class="alphabet-grid" id="challengeAlphabet"></div>
+              </div>
+            </aside>
           </div>
-        </section>
+        </div>
       </section>
     </div>
   </main>
@@ -170,6 +293,34 @@
     </div>
   </dialog>
 
+  <dialog id="rulesDialog" class="wide-dialog">
+    <div class="modal rules-modal">
+      <div class="modal-head">
+        <div>
+          <h2>Qonun qoidalarni tahrirlash</h2>
+          <p>Har bir qoida uchun A, B yoki C darajasini tanlang.</p>
+        </div>
+        <button class="close-button" id="closeRulesDialog" type="button" title="Yopish">x</button>
+      </div>
+
+      <div class="rules-editor">
+        <div class="rules-editor-head">
+          <div>
+            <strong>Qoidalar ro'yxati</strong>
+            <span>Qoida matnini yozing va darajasini belgilang.</span>
+          </div>
+          <button class="small-add-button" id="addRuleBtn" type="button">+</button>
+        </div>
+        <div class="rules-editor-list rules-editor-list-wide" id="ruleEditorList"></div>
+      </div>
+
+      <div class="form-actions">
+        <button class="primary" id="saveRulesBtn" type="button">Saqlash</button>
+        <button class="ghost" id="cancelRulesBtn" type="button">Bekor qilish</button>
+      </div>
+    </div>
+  </dialog>
+
   <dialog id="breakDialog">
     <form class="modal" method="dialog">
       <h3>Bu safar nima sabab bo'ldi?</h3>
@@ -222,6 +373,30 @@
       </div>
     </form>
   </dialog>
-  <script type="module" src="./app.js?v=7"></script>
+
+  <dialog id="challengeInfoDialog">
+    <div class="modal challenge-info-modal">
+      <div class="modal-head">
+        <div>
+          <h2 id="challengeInfoTitle">Chelenj ma'lumoti</h2>
+          <p id="challengeInfoMeta">Tanlangan chelenj haqida ma'lumot.</p>
+        </div>
+        <button class="close-button" id="closeChallengeInfoDialog" type="button" title="Yopish">x</button>
+      </div>
+      <div class="challenge-info-grid">
+        <div class="challenge-info-badge" id="challengeInfoLetter">A</div>
+        <div class="challenge-info-facts">
+          <div><span>Muddat</span><strong id="challengeInfoDuration">Belgilanmagan</strong></div>
+          <div><span>Ko'rsatkich</span><strong id="challengeInfoMetric">Belgilanmagan</strong></div>
+        </div>
+      </div>
+      <div class="challenge-info-guide">
+        <strong>Yo'riqnoma</strong>
+        <p id="challengeInfoGuide">Yo'riqnoma yozilmagan.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="./app.js?v=48"></script>
 </body>
 </html>

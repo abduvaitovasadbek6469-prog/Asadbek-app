@@ -1,6 +1,6 @@
-const CACHE_NAME = 'asadbek-2-0-v7';
+const CACHE_NAME = 'asadbek-2-0-v48';
 const APP_SHELL = ['./', './index.html', './styles.css', './manifest.webmanifest', './icons/icon-192.svg', './icons/icon-512.svg'];
-const NETWORK_FIRST = ['app.js', 'service-worker.js'];
+const NETWORK_FIRST = ['app.js', 'styles.css', 'service-worker.js'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));

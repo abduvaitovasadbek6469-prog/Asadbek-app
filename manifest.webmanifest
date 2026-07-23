@@ -3,8 +3,8 @@
   "short_name": "Asadbek 2.0",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#edf3f7",
-  "theme_color": "#0f766e",
+  "background_color": "#17130f",
+  "theme_color": "#17130f",
   "description": "Odatlar, maqsadlar, kalendar va shaxsiy nazorat tizimi.",
   "icons": [
     {

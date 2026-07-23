@@ -1,148 +1,38 @@
 const storageKey = "asadbek-2-0-habits-v2";
     const selectedKey = "asadbek-2-0-selected-habit";
     const legacyKey = "asadbek-2-0-namoz-habit";
+    const challengeStorageKey = "asadbek-2-0-challenges-v1";
+    const challengeLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
     const colors = [
-      {
-            "id": "teal",
-            "color": "#0f766e",
-            "soft": "#d9f2ee"
-      },
-      {
-            "id": "emerald",
-            "color": "#059669",
-            "soft": "#d1fae5"
-      },
-      {
-            "id": "cyan",
-            "color": "#0891b2",
-            "soft": "#cffafe"
-      },
-      {
-            "id": "sky",
-            "color": "#0284c7",
-            "soft": "#e0f2fe"
-      },
-      {
-            "id": "blue",
-            "color": "#2563eb",
-            "soft": "#dbeafe"
-      },
-      {
-            "id": "indigo",
-            "color": "#4f46e5",
-            "soft": "#e0e7ff"
-      },
-      {
-            "id": "violet",
-            "color": "#7c3aed",
-            "soft": "#ede9fe"
-      },
-      {
-            "id": "purple",
-            "color": "#9333ea",
-            "soft": "#f3e8ff"
-      },
-      {
-            "id": "fuchsia",
-            "color": "#c026d3",
-            "soft": "#fae8ff"
-      },
-      {
-            "id": "pink",
-            "color": "#db2777",
-            "soft": "#fce7f3"
-      },
-      {
-            "id": "rose",
-            "color": "#e11d48",
-            "soft": "#ffe4e6"
-      },
-      {
-            "id": "red",
-            "color": "#dc2626",
-            "soft": "#fee2e2"
-      },
-      {
-            "id": "orange",
-            "color": "#ea580c",
-            "soft": "#ffedd5"
-      },
-      {
-            "id": "amber",
-            "color": "#d97706",
-            "soft": "#fef3c7"
-      },
-      {
-            "id": "yellow",
-            "color": "#ca8a04",
-            "soft": "#fef9c3"
-      },
-      {
-            "id": "lime",
-            "color": "#65a30d",
-            "soft": "#ecfccb"
-      },
-      {
-            "id": "green",
-            "color": "#16a34a",
-            "soft": "#dcfce7"
-      },
-      {
-            "id": "mint",
-            "color": "#10b981",
-            "soft": "#ccfbf1"
-      },
-      {
-            "id": "stone",
-            "color": "#57534e",
-            "soft": "#e7e5e4"
-      },
-      {
-            "id": "slate",
-            "color": "#334155",
-            "soft": "#e2e8f0"
-      },
-      {
-            "id": "zinc",
-            "color": "#3f3f46",
-            "soft": "#e4e4e7"
-      },
-      {
-            "id": "brown",
-            "color": "#92400e",
-            "soft": "#fde68a"
-      },
-      {
-            "id": "navy",
-            "color": "#1e3a8a",
-            "soft": "#dbeafe"
-      },
-      {
-            "id": "black",
-            "color": "#111827",
-            "soft": "#e5e7eb"
-      },
-      {
-            "id": "coral",
-            "color": "#f43f5e",
-            "soft": "#ffe4e6"
-      },
-      {
-            "id": "aqua",
-            "color": "#0e7490",
-            "soft": "#cffafe"
-      },
-      {
-            "id": "olive",
-            "color": "#4d7c0f",
-            "soft": "#ecfccb"
-      },
-      {
-            "id": "gold",
-            "color": "#a16207",
-            "soft": "#fef3c7"
-      }
+      { "id": "teal", "color": "#4d8a7d", "soft": "rgba(77, 138, 125, 0.18)" },
+      { "id": "emerald", "color": "#4d8a5e", "soft": "rgba(77, 138, 94, 0.18)" },
+      { "id": "cyan", "color": "#4d8393", "soft": "rgba(77, 131, 147, 0.18)" },
+      { "id": "sky", "color": "#4d76a3", "soft": "rgba(77, 118, 163, 0.18)" },
+      { "id": "blue", "color": "#5468b0", "soft": "rgba(84, 104, 176, 0.18)" },
+      { "id": "indigo", "color": "#665fb0", "soft": "rgba(102, 95, 176, 0.18)" },
+      { "id": "violet", "color": "#7a5fae", "soft": "rgba(122, 95, 174, 0.18)" },
+      { "id": "purple", "color": "#8a5ca6", "soft": "rgba(138, 92, 166, 0.18)" },
+      { "id": "fuchsia", "color": "#a1549a", "soft": "rgba(161, 84, 154, 0.18)" },
+      { "id": "pink", "color": "#b3527e", "soft": "rgba(179, 82, 126, 0.18)" },
+      { "id": "rose", "color": "#b95566", "soft": "rgba(185, 85, 102, 0.18)" },
+      { "id": "red", "color": "#b3564a", "soft": "rgba(179, 86, 74, 0.18)" },
+      { "id": "orange", "color": "#d6544a", "soft": "rgba(214, 84, 74, 0.18)" },
+      { "id": "amber", "color": "#b3823a", "soft": "rgba(179, 130, 58, 0.18)" },
+      { "id": "yellow", "color": "#c9a227", "soft": "rgba(201, 162, 39, 0.18)" },
+      { "id": "lime", "color": "#8a9a3f", "soft": "rgba(138, 154, 63, 0.18)" },
+      { "id": "green", "color": "#5c9a6b", "soft": "rgba(92, 154, 107, 0.18)" },
+      { "id": "mint", "color": "#4a9a86", "soft": "rgba(74, 154, 134, 0.18)" },
+      { "id": "stone", "color": "#8a8378", "soft": "rgba(138, 131, 120, 0.18)" },
+      { "id": "slate", "color": "#6b7688", "soft": "rgba(107, 118, 136, 0.18)" },
+      { "id": "zinc", "color": "#77808f", "soft": "rgba(119, 128, 143, 0.18)" },
+      { "id": "brown", "color": "#9a7040", "soft": "rgba(154, 112, 64, 0.18)" },
+      { "id": "navy", "color": "#4a5a94", "soft": "rgba(74, 90, 148, 0.18)" },
+      { "id": "black", "color": "#c3c9d1", "soft": "rgba(195, 201, 209, 0.16)" },
+      { "id": "coral", "color": "#c1614f", "soft": "rgba(193, 97, 79, 0.18)" },
+      { "id": "aqua", "color": "#4d8ba0", "soft": "rgba(77, 139, 160, 0.18)" },
+      { "id": "olive", "color": "#7f8a3d", "soft": "rgba(127, 138, 61, 0.18)" },
+      { "id": "gold", "color": "#a98a2e", "soft": "rgba(169, 138, 46, 0.18)" }
 ];
 
     const iconTemplates = {
@@ -698,12 +588,56 @@ const storageKey = "asadbek-2-0-habits-v2";
       habitList: document.getElementById("habitList"),
       emptyState: document.getElementById("emptyState"),
       addHabitBtn: document.getElementById("addHabitBtn"),
+      plansMenuBtn: document.getElementById("plansMenuBtn"),
+      challengesMenuBtn: document.getElementById("challengesMenuBtn"),
+      plansPanel: document.getElementById("plansPanel"),
+      challengesPanel: document.getElementById("challengesPanel"),
+      challengeHome: document.getElementById("challengeHome"),
+      challengeBuilder: document.getElementById("challengeBuilder"),
+      openChallengeFormBtn: document.getElementById("openChallengeFormBtn"),
+      challengeForm: document.getElementById("challengeForm"),
+      challengeFormTitle: document.getElementById("challengeFormTitle"),
+      challengeError: document.getElementById("challengeError"),
+      challengeLetterInput: document.getElementById("challengeLetterInput"),
+      challengeNameInput: document.getElementById("challengeNameInput"),
+      challengeGuideInput: document.getElementById("challengeGuideInput"),
+      challengeDaysInput: document.getElementById("challengeDaysInput"),
+      challengeHoursInput: document.getElementById("challengeHoursInput"),
+      challengeMinutesInput: document.getElementById("challengeMinutesInput"),
+      challengeMetricOptions: document.getElementById("challengeMetricOptions"),
+      metricTimeField: document.getElementById("metricTimeField"),
+      metricCountField: document.getElementById("metricCountField"),
+      metricValueField: document.getElementById("metricValueField"),
+      metricHoursInput: document.getElementById("metricHoursInput"),
+      metricMinutesInput: document.getElementById("metricMinutesInput"),
+      metricCountInput: document.getElementById("metricCountInput"),
+      metricValueInput: document.getElementById("metricValueInput"),
+      challengeAlphabet: document.getElementById("challengeAlphabet"),
+      challengeList: document.getElementById("challengeList"),
+      challengeSummaryCount: document.getElementById("challengeSummaryCount"),
+      saveChallengeBtn: document.getElementById("saveChallengeBtn"),
+      cancelChallengeBtn: document.getElementById("cancelChallengeBtn"),
+      challengeInfoDialog: document.getElementById("challengeInfoDialog"),
+      closeChallengeInfoDialog: document.getElementById("closeChallengeInfoDialog"),
+      challengeInfoTitle: document.getElementById("challengeInfoTitle"),
+      challengeInfoMeta: document.getElementById("challengeInfoMeta"),
+      challengeInfoLetter: document.getElementById("challengeInfoLetter"),
+      challengeInfoDuration: document.getElementById("challengeInfoDuration"),
+      challengeInfoMetric: document.getElementById("challengeInfoMetric"),
+      challengeInfoGuide: document.getElementById("challengeInfoGuide"),
       selectedName: document.getElementById("selectedName"),
       dateLabel: document.getElementById("dateLabel"),
       startedLabel: document.getElementById("startedLabel"),
       selectedReason: document.getElementById("selectedReason"),
       reasonPreview: document.getElementById("reasonPreview"),
       reasonMenu: document.getElementById("reasonMenu"),
+      rulesMenu: document.getElementById("rulesMenu"),
+      rulesPreview: document.getElementById("rulesPreview"),
+      rulesList: document.getElementById("rulesList"),
+      addRuleFromDetailBtn: document.getElementById("addRuleFromDetailBtn"),
+      penaltyJournalMenu: document.getElementById("penaltyJournalMenu"),
+      penaltyJournalPreview: document.getElementById("penaltyJournalPreview"),
+      penaltyJournalList: document.getElementById("penaltyJournalList"),
       currentMetricLabel: document.getElementById("currentMetricLabel"),
       currentSummary: document.getElementById("currentSummary"),
       bestMetricLabel: document.getElementById("bestMetricLabel"),
@@ -713,6 +647,8 @@ const storageKey = "asadbek-2-0-habits-v2";
       restartMenuBtn: document.getElementById("restartMenuBtn"),
       breakMenuBtn: document.getElementById("breakMenuBtn"),
       historyMenuBtn: document.getElementById("historyMenuBtn"),
+      calendarMenu: document.getElementById("calendarMenu"),
+      calendarSummaryTitle: document.getElementById("calendarSummaryTitle"),
       calendarTitle: document.getElementById("calendarTitle"),
       calendarMonthLabel: document.getElementById("calendarMonthLabel"),
       calendarGrid: document.getElementById("calendarGrid"),
@@ -740,6 +676,7 @@ const storageKey = "asadbek-2-0-habits-v2";
       historyList: document.getElementById("historyList"),
       closeHistoryDialog: document.getElementById("closeHistoryDialog"),
       clearHistoryBtn: document.getElementById("clearHistoryBtn"),
+      timerGrid: document.getElementById("timerGrid"),
       years: document.getElementById("years"),
       months: document.getElementById("months"),
       days: document.getElementById("days"),
@@ -747,6 +684,7 @@ const storageKey = "asadbek-2-0-habits-v2";
       minutes: document.getElementById("minutes"),
       seconds: document.getElementById("seconds"),
       habitDialog: document.getElementById("habitDialog"),
+      rulesDialog: document.getElementById("rulesDialog"),
       form: document.getElementById("habitForm"),
       formTitle: document.getElementById("formTitle"),
       formHint: document.getElementById("formHint"),
@@ -761,6 +699,11 @@ const storageKey = "asadbek-2-0-habits-v2";
       nameInput: document.getElementById("habitNameInput"),
       dateInput: document.getElementById("habitDateInput"),
       reasonInput: document.getElementById("habitReasonInput"),
+      ruleEditorList: document.getElementById("ruleEditorList"),
+      addRuleBtn: document.getElementById("addRuleBtn"),
+      saveRulesBtn: document.getElementById("saveRulesBtn"),
+      cancelRulesBtn: document.getElementById("cancelRulesBtn"),
+      closeRulesDialog: document.getElementById("closeRulesDialog"),
       colorChooser: document.getElementById("colorChooser"),
       iconChooser: document.getElementById("iconChooser"),
       saveBtn: document.getElementById("saveHabitBtn"),
@@ -772,7 +715,11 @@ const storageKey = "asadbek-2-0-habits-v2";
     };
 
     let habits = loadHabits();
+    let challenges = loadChallenges();
     let selectedId = localStorage.getItem(selectedKey) || (habits[0] ? habits[0].id : "");
+    let selectedChallengeLetter = challengeLetters[0];
+    let selectedChallengeMetric = "time";
+    let editingChallengeId = null;
     let editingId = null;
     let openMenuId = null;
     let detailMenuOpen = false;
@@ -785,6 +732,7 @@ const storageKey = "asadbek-2-0-habits-v2";
     let selectedCalendarDate = dateKey(new Date());
     let editingDayKey = null;
     let editingDayStatus = "done";
+    let editingRules = [];
 
     function normalizeHabit(habit, index) {
       const fallback = colors[index % colors.length].id;
@@ -796,6 +744,9 @@ const storageKey = "asadbek-2-0-habits-v2";
         startedAt: habit.startedAt || new Date().toISOString(),
         endsAt: habit.endsAt || null,
         reason: habit.reason || "",
+        rules: normalizeRules(habit.rules),
+        penaltyRules: normalizePenaltyRules(habit.penaltyRules || habit.penalties),
+        penaltyJournal: normalizePenaltyJournal(habit.penaltyJournal || habit.penaltyLog),
         color: habit.color || fallback,
         icon: normalizeIcon(habit.icon, habit.name),
         bestSeconds: habit.bestSeconds || 0,
@@ -832,6 +783,42 @@ const storageKey = "asadbek-2-0-habits-v2";
     function saveHabits() {
       localStorage.setItem(storageKey, JSON.stringify(habits));
       localStorage.setItem(selectedKey, selectedId);
+    }
+
+    function loadChallenges() {
+      const saved = localStorage.getItem(challengeStorageKey);
+      if (!saved) return [];
+      try {
+        const parsed = JSON.parse(saved);
+        if (!Array.isArray(parsed)) return [];
+        const usedLetters = new Set();
+        return parsed.map(function(item) {
+          let letter = challengeLetters.includes(item.letter) && !usedLetters.has(item.letter)
+            ? item.letter
+            : challengeLetters.find(function(candidate) { return !usedLetters.has(candidate); }) || challengeLetters[0];
+          usedLetters.add(letter);
+          return {
+            id: item.id || createId(),
+            letter: letter,
+            name: item.name || "Yangi chelenj",
+            guide: item.guide || "",
+            duration: {
+              days: Math.max(0, Number(item.duration && item.duration.days) || 0),
+              hours: Math.max(0, Number(item.duration && item.duration.hours) || 0),
+              minutes: Math.max(0, Number(item.duration && item.duration.minutes) || 0)
+            },
+            metric: ["time", "count", "value"].includes(item.metric) ? item.metric : "time",
+            metricValue: item.metricValue && typeof item.metricValue === "object" ? item.metricValue : {},
+            createdAt: item.createdAt || new Date().toISOString()
+          };
+        });
+      } catch {
+        return [];
+      }
+    }
+
+    function saveChallenges() {
+      localStorage.setItem(challengeStorageKey, JSON.stringify(challenges));
     }
 
     function activeHabit() {
@@ -920,6 +907,421 @@ const storageKey = "asadbek-2-0-habits-v2";
       return date.toISOString();
     }
 
+    function clampNumber(value, min, max) {
+      const number = Number(value);
+      const safe = Number.isFinite(number) ? number : min;
+      return Math.max(min, Math.min(max, Math.floor(safe)));
+    }
+
+    function formatParts(parts) {
+      return parts.length ? parts.join(", ") : "Belgilanmagan";
+    }
+
+    function formatChallengeDuration(duration) {
+      return formatParts([
+        duration.days ? duration.days + " kun" : "",
+        duration.hours ? duration.hours + " soat" : "",
+        duration.minutes ? duration.minutes + " minut" : ""
+      ].filter(Boolean));
+    }
+
+    function formatMoney(value) {
+      return new Intl.NumberFormat("uz-UZ").format(Number(value) || 0) + " so'm";
+    }
+
+    function metricLabel(challenge) {
+      if (challenge.metric === "count") {
+        return "Soni: " + (Number(challenge.metricValue.count) || 1) + " ta";
+      }
+      if (challenge.metric === "value") {
+        return "Qiymati: " + formatMoney(challenge.metricValue.value);
+      }
+      return "Vaqti: " + formatParts([
+        challenge.metricValue.hours ? challenge.metricValue.hours + " soat" : "",
+        challenge.metricValue.minutes ? challenge.metricValue.minutes + " minut" : ""
+      ].filter(Boolean));
+    }
+
+    function totalDurationMinutes(duration) {
+      if (!duration) return 0;
+      return (Number(duration.days) || 0) * 1440 + (Number(duration.hours) || 0) * 60 + (Number(duration.minutes) || 0);
+    }
+
+    function formatMinutesAsDuration(totalMinutes) {
+      const safeMinutes = Math.max(0, Math.floor(Number(totalMinutes) || 0));
+      const days = Math.floor(safeMinutes / 1440);
+      const hours = Math.floor((safeMinutes % 1440) / 60);
+      const minutes = safeMinutes % 60;
+      return formatParts([
+        days ? days + " kun" : "",
+        hours ? hours + " soat" : "",
+        minutes ? minutes + " minut" : ""
+      ].filter(Boolean));
+    }
+
+    function challengeForRule(rule) {
+      if (!rule) return null;
+      const id = rule.challengeId || "";
+      const letter = rule.challengeLetter || rule.category || "";
+      return challenges.find(function(challenge) {
+        return (id && challenge.id === id) || (letter && challenge.letter === letter);
+      }) || null;
+    }
+
+    function ruleMultiplier(rule) {
+      return Math.max(1, Math.min(999, Math.floor(Number(rule && rule.multiplier) || 1)));
+    }
+
+    function ruleChallengeLetter(rule) {
+      const challenge = challengeForRule(rule);
+      return challenge ? challenge.letter : (rule.challengeLetter || rule.category || "");
+    }
+
+    function challengeRuleResult(rule) {
+      const challenge = challengeForRule(rule);
+      const multiplier = ruleMultiplier(rule);
+      const letter = ruleChallengeLetter(rule);
+      if (!challenge) {
+        return letter ? multiplier + letter + " - chelenj topilmadi" : "Chelenj tanlanmagan";
+      }
+
+      let result = "Belgilanmagan";
+      const durationMinutes = totalDurationMinutes(challenge.duration);
+      if (challenge.metric === "value") {
+        result = formatMoney((Number(challenge.metricValue.value) || 0) * multiplier);
+      } else if (durationMinutes > 0) {
+        result = formatMinutesAsDuration(durationMinutes * multiplier);
+      } else if (challenge.metric === "count") {
+        result = ((Number(challenge.metricValue.count) || 1) * multiplier) + " ta";
+      } else {
+        const metricMinutes = ((Number(challenge.metricValue.hours) || 0) * 60) + (Number(challenge.metricValue.minutes) || 0);
+        result = formatMinutesAsDuration(metricMinutes * multiplier);
+      }
+      return multiplier + challenge.letter + " = " + result;
+    }
+
+    function challengePenaltyLimitMinutes(rule) {
+      const challenge = challengeForRule(rule);
+      const multiplier = ruleMultiplier(rule);
+      if (!challenge) return 1440;
+      const durationMinutes = totalDurationMinutes(challenge.duration);
+      if (durationMinutes > 0) return durationMinutes * multiplier;
+      if (challenge.metric === "time") {
+        const metricMinutes = ((Number(challenge.metricValue.hours) || 0) * 60) + (Number(challenge.metricValue.minutes) || 0);
+        if (metricMinutes > 0) return metricMinutes * multiplier;
+      }
+      return 1440 * multiplier;
+    }
+
+    function formatPenaltyLimit(rule) {
+      return formatMinutesAsDuration(challengePenaltyLimitMinutes(rule));
+    }
+
+    function challengePalette(letter) {
+      const palettes = [
+        { accent: "#d6544a", soft: "rgba(214, 84, 74, 0.16)", pale: "rgba(214, 84, 74, 0.08)", text: "#e37167" },
+        { accent: "#4d76a3", soft: "rgba(77, 118, 163, 0.16)", pale: "rgba(77, 118, 163, 0.08)", text: "#7ea0c9" },
+        { accent: "#b3564a", soft: "rgba(179, 86, 74, 0.16)", pale: "rgba(179, 86, 74, 0.08)", text: "#d1453a" },
+        { accent: "#8a5ca6", soft: "rgba(138, 92, 166, 0.16)", pale: "rgba(138, 92, 166, 0.08)", text: "#ab86c9" },
+        { accent: "#9a7040", soft: "rgba(154, 112, 64, 0.16)", pale: "rgba(154, 112, 64, 0.08)", text: "#c9a227" },
+        { accent: "#4d8393", soft: "rgba(77, 131, 147, 0.16)", pale: "rgba(77, 131, 147, 0.08)", text: "#7eb0c0" },
+        { accent: "#5c9a6b", soft: "rgba(92, 154, 107, 0.16)", pale: "rgba(92, 154, 107, 0.08)", text: "#82c191" },
+        { accent: "#b3823a", soft: "rgba(179, 130, 58, 0.16)", pale: "rgba(179, 130, 58, 0.08)", text: "#c9a227" },
+        { accent: "#b3527e", soft: "rgba(179, 82, 126, 0.16)", pale: "rgba(179, 82, 126, 0.08)", text: "#d381a8" },
+        { accent: "#6b7688", soft: "rgba(107, 118, 136, 0.16)", pale: "rgba(107, 118, 136, 0.08)", text: "#a3aebd" }
+      ];
+      const index = Math.max(0, challengeLetters.indexOf(letter || "A"));
+      return palettes[index % palettes.length];
+    }
+
+    function applyChallengePalette(element, letter) {
+      const palette = challengePalette(letter);
+      element.style.setProperty("--challenge-accent", palette.accent);
+      element.style.setProperty("--challenge-soft", palette.soft);
+      element.style.setProperty("--challenge-pale", palette.pale);
+      element.style.setProperty("--challenge-text", palette.text);
+    }
+
+    function setChallengeError(message) {
+      els.challengeError.textContent = message;
+      els.challengeError.classList.toggle("visible", Boolean(message));
+    }
+
+    function setChallengeMetric(metric) {
+      selectedChallengeMetric = metric;
+      els.challengeMetricOptions.querySelectorAll("button").forEach(function(button) {
+        button.classList.toggle("active", button.dataset.metric === metric);
+      });
+      els.metricTimeField.classList.toggle("hidden", metric !== "time");
+      els.metricCountField.classList.toggle("hidden", metric !== "count");
+      els.metricValueField.classList.toggle("hidden", metric !== "value");
+    }
+
+    function firstAvailableChallengeLetter(exceptId) {
+      const usedLetters = new Set(challenges
+        .filter(function(challenge) { return challenge.id !== exceptId; })
+        .map(function(challenge) { return challenge.letter; }));
+      return challengeLetters.find(function(letter) { return !usedLetters.has(letter); }) || "";
+    }
+
+    function resetChallengeForm() {
+      editingChallengeId = null;
+      selectedChallengeLetter = firstAvailableChallengeLetter();
+      selectedChallengeMetric = "time";
+      els.challengeForm.reset();
+      els.challengeLetterInput.value = selectedChallengeLetter;
+      els.challengeDaysInput.value = 0;
+      els.challengeHoursInput.value = 0;
+      els.challengeMinutesInput.value = 0;
+      els.metricHoursInput.value = 0;
+      els.metricMinutesInput.value = 0;
+      els.metricCountInput.value = 1;
+      els.metricValueInput.value = 0;
+      setChallengeMetric("time");
+      setChallengeError("");
+    }
+
+    function setChallengeEditor(open) {
+      els.challengeHome.classList.toggle("hidden", open);
+      els.challengeBuilder.classList.toggle("hidden", !open);
+      if (open) renderChallengeAlphabet();
+    }
+
+    function openNewChallengeForm() {
+      resetChallengeForm();
+      els.challengeFormTitle.textContent = "Chelenj yaratish";
+      els.saveChallengeBtn.textContent = "Chelenjni saqlash";
+      setChallengeEditor(true);
+    }
+
+    function openEditChallengeForm(id) {
+      const challenge = challenges.find(function(item) { return item.id === id; });
+      if (!challenge) return;
+      editingChallengeId = id;
+      selectedChallengeLetter = challenge.letter;
+      els.challengeLetterInput.value = challenge.letter;
+      els.challengeNameInput.value = challenge.name;
+      els.challengeGuideInput.value = challenge.guide || "";
+      els.challengeDaysInput.value = challenge.duration.days || 0;
+      els.challengeHoursInput.value = challenge.duration.hours || 0;
+      els.challengeMinutesInput.value = challenge.duration.minutes || 0;
+      els.metricHoursInput.value = challenge.metricValue.hours || 0;
+      els.metricMinutesInput.value = challenge.metricValue.minutes || 0;
+      els.metricCountInput.value = challenge.metricValue.count || 1;
+      els.metricValueInput.value = challenge.metricValue.value || 0;
+      setChallengeMetric(challenge.metric);
+      setChallengeError("");
+      els.challengeFormTitle.textContent = "Chelenjni tahrirlash";
+      els.saveChallengeBtn.textContent = "Saqlash";
+      setChallengeEditor(true);
+    }
+
+    function closeChallengeForm() {
+      resetChallengeForm();
+      setChallengeEditor(false);
+      renderChallenges();
+      renderChallengeAlphabet();
+    }
+
+    function deleteChallenge(challenge) {
+      if (!window.confirm("\"" + challenge.name + "\" chelenjini o'chirasizmi?")) return;
+      challenges = challenges.filter(function(item) { return item.id !== challenge.id; });
+      if (editingChallengeId === challenge.id) closeChallengeForm();
+      saveChallenges();
+      renderChallenges();
+      renderChallengeAlphabet();
+    }
+
+    function openChallengeInfoDialog(challenge) {
+      els.challengeInfoTitle.textContent = challenge.name;
+      els.challengeInfoMeta.textContent = "Chelenj haqida qisqa ma'lumot.";
+      els.challengeInfoLetter.textContent = challenge.letter;
+      applyChallengePalette(els.challengeInfoLetter, challenge.letter);
+      els.challengeInfoDuration.textContent = formatChallengeDuration(challenge.duration);
+      els.challengeInfoMetric.textContent = metricLabel(challenge);
+      els.challengeInfoGuide.textContent = challenge.guide || "Yo'riqnoma yozilmagan.";
+      els.challengeInfoDialog.showModal();
+    }
+
+    function renderChallengeAlphabet() {
+      const usedLetters = new Set(challenges
+        .filter(function(challenge) { return challenge.id !== editingChallengeId; })
+        .map(function(challenge) { return challenge.letter; }));
+      if (!selectedChallengeLetter || usedLetters.has(selectedChallengeLetter)) {
+        selectedChallengeLetter = firstAvailableChallengeLetter(editingChallengeId);
+        els.challengeLetterInput.value = selectedChallengeLetter;
+      }
+      els.challengeAlphabet.innerHTML = "";
+      challengeLetters.forEach(function(letter) {
+        const isUsed = usedLetters.has(letter);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "letter-choice";
+        button.textContent = letter;
+        applyChallengePalette(button, letter);
+        button.classList.toggle("active", letter === selectedChallengeLetter);
+        button.classList.toggle("used", isUsed);
+        button.disabled = isUsed;
+        if (isUsed) button.title = "Bu harfga chelenj yaratilgan";
+        button.addEventListener("click", function() {
+          if (isUsed) return;
+          selectedChallengeLetter = letter;
+          els.challengeLetterInput.value = letter;
+          renderChallengeAlphabet();
+        });
+        els.challengeAlphabet.appendChild(button);
+      });
+    }
+
+    function renderChallenges() {
+      els.challengeSummaryCount.textContent = challenges.length + " ta";
+      els.challengeList.innerHTML = "";
+      if (!challenges.length) {
+        const empty = document.createElement("div");
+        empty.className = "challenge-empty";
+        empty.textContent = "Hali chelenj yaratilmagan.";
+        els.challengeList.appendChild(empty);
+        return;
+      }
+      challenges.forEach(function(challenge) {
+        const card = document.createElement("article");
+        card.className = "challenge-card";
+        card.tabIndex = 0;
+        card.title = "Tahrirlash uchun bosing";
+        applyChallengePalette(card, challenge.letter);
+
+        const badge = document.createElement("div");
+        badge.className = "challenge-card-badge";
+        badge.textContent = challenge.letter;
+        applyChallengePalette(badge, challenge.letter);
+
+        const body = document.createElement("div");
+        body.className = "challenge-card-body";
+        const title = document.createElement("strong");
+        title.textContent = challenge.name;
+        const meta = document.createElement("span");
+        meta.textContent = formatChallengeDuration(challenge.duration) + " | " + metricLabel(challenge);
+        const guide = document.createElement("p");
+        guide.className = "challenge-guide-preview";
+        guide.textContent = challenge.guide || "Yo'riqnoma yozilmagan.";
+        body.append(title, meta, guide);
+
+        const menuWrap = document.createElement("div");
+        menuWrap.className = "challenge-menu-wrap";
+        const menuButton = document.createElement("button");
+        menuButton.type = "button";
+        menuButton.className = "challenge-menu-button";
+        menuButton.title = "Chelenj menyusi";
+        menuButton.setAttribute("aria-label", "Chelenj menyusi");
+        menuButton.innerHTML = "<span></span><span></span><span></span>";
+        const menu = document.createElement("div");
+        menu.className = "challenge-card-menu";
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.textContent = "Tahrirlash";
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "danger-text";
+        deleteButton.textContent = "O'chirish";
+        menu.append(editButton, deleteButton);
+        menuWrap.append(menuButton, menu);
+
+        menuButton.addEventListener("click", function(event) {
+          event.stopPropagation();
+          document.querySelectorAll(".challenge-card-menu.open").forEach(function(item) {
+            if (item !== menu) item.classList.remove("open");
+          });
+          menu.classList.toggle("open");
+        });
+        editButton.addEventListener("click", function(event) {
+          event.stopPropagation();
+          menu.classList.remove("open");
+          openEditChallengeForm(challenge.id);
+        });
+        deleteButton.addEventListener("click", function(event) {
+          event.stopPropagation();
+          menu.classList.remove("open");
+          deleteChallenge(challenge);
+        });
+
+        card.addEventListener("click", function() { openChallengeInfoDialog(challenge); });
+        card.addEventListener("keydown", function(event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openChallengeInfoDialog(challenge);
+          }
+        });
+        card.append(body, badge, menuWrap);
+        els.challengeList.appendChild(card);
+      });
+    }
+
+    function handleChallengeSubmit(event) {
+      event.preventDefault();
+      setChallengeError("");
+      const name = els.challengeNameInput.value.trim();
+      const guide = els.challengeGuideInput.value.trim();
+      if (!selectedChallengeLetter) {
+        setChallengeError("Bo'sh harf qolmadi. Avval kerakmas chelenjni o'chiring.");
+        return;
+      }
+      if (challenges.some(function(challenge) { return challenge.id !== editingChallengeId && challenge.letter === selectedChallengeLetter; })) {
+        setChallengeError("Bu harfga chelenj allaqachon yaratilgan.");
+        renderChallengeAlphabet();
+        return;
+      }
+      if (!name) {
+        setChallengeError("Chelenj nomini yozing.");
+        return;
+      }
+
+      const duration = {
+        days: clampNumber(els.challengeDaysInput.value, 0, 3650),
+        hours: clampNumber(els.challengeHoursInput.value, 0, 23),
+        minutes: clampNumber(els.challengeMinutesInput.value, 0, 59)
+      };
+      let metricValue = {};
+      if (selectedChallengeMetric === "count") {
+        metricValue = { count: Math.max(1, clampNumber(els.metricCountInput.value, 1, 100000)) };
+      } else if (selectedChallengeMetric === "value") {
+        metricValue = { value: Math.max(0, clampNumber(els.metricValueInput.value, 0, 1000000000)) };
+      } else {
+        metricValue = {
+          hours: clampNumber(els.metricHoursInput.value, 0, 10000),
+          minutes: clampNumber(els.metricMinutesInput.value, 0, 59)
+        };
+      }
+
+      if (editingChallengeId) {
+        const existing = challenges.find(function(challenge) { return challenge.id === editingChallengeId; });
+        if (existing) {
+          existing.letter = selectedChallengeLetter;
+          existing.name = name;
+          existing.guide = guide;
+          existing.duration = duration;
+          existing.metric = selectedChallengeMetric;
+          existing.metricValue = metricValue;
+          existing.updatedAt = new Date().toISOString();
+          saveChallenges();
+          closeChallengeForm();
+          return;
+        }
+      }
+
+      challenges.unshift({
+        id: createId(),
+        letter: selectedChallengeLetter,
+        name: name,
+        guide: guide,
+        duration: duration,
+        metric: selectedChallengeMetric,
+        metricValue: metricValue,
+        createdAt: new Date().toISOString()
+      });
+      saveChallenges();
+      closeChallengeForm();
+    }
+
     function typeText(type) { return type === "quit" ? "Tashlash odati" : "Boshlash odati"; }
     function typeShort(type) { return type === "quit" ? "Tashlash" : "Boshlash"; }
     function dateText(type) { return type === "quit" ? "Tashlangan sana" : "Boshlangan sana"; }
@@ -961,6 +1363,99 @@ const storageKey = "asadbek-2-0-habits-v2";
     function reasonPreviewText(reason) {
       const clean = (reason || "Sabab hali yozilmagan.").replace(/\s+/g, " ").trim();
       return clean.length > 72 ? clean.slice(0, 72) + "..." : clean;
+    }
+
+    function normalizeRules(rules) {
+      if (!Array.isArray(rules)) return [];
+      return rules.map(function(rule) {
+        const legacyCategory = challengeLetters.includes(rule.category) ? rule.category : "";
+        const challengeLetter = challengeLetters.includes(rule.challengeLetter || rule.letter)
+          ? (rule.challengeLetter || rule.letter)
+          : legacyCategory;
+        const multiplier = Math.max(1, Math.min(999, Math.floor(Number(rule.multiplier) || 1)));
+        return {
+          id: rule.id || createId(),
+          text: (rule.text || rule.title || "").trim(),
+          category: challengeLetter,
+          challengeId: rule.challengeId || "",
+          challengeLetter: challengeLetter,
+          multiplier: multiplier
+        };
+      }).filter(function(rule) { return rule.text; });
+    }
+
+    function normalizePenaltyRules(value) {
+      const defaults = {
+        A: "",
+        B: "",
+        C: ""
+      };
+      if (Array.isArray(value)) {
+        value.forEach(function(item) {
+          const category = ["A", "B", "C"].includes(item.category) ? item.category : "";
+          if (category && item.action) defaults[category] = String(item.action).trim();
+        });
+        return defaults;
+      }
+      if (value && typeof value === "object") {
+        ["A", "B", "C"].forEach(function(category) {
+          if (value[category]) {
+            const text = String(value[category]).trim();
+            defaults[category] = text === defaultPenaltyAction(category) ? "" : text;
+          }
+        });
+      }
+      return defaults;
+    }
+
+    function normalizePenaltyJournal(value) {
+      if (!Array.isArray(value)) return [];
+      return value.map(function(item) {
+        const status = item.status === "done" ? "done" : "open";
+        return {
+          id: item.id || createId(),
+          ruleId: item.ruleId || "",
+          ruleText: String(item.ruleText || item.text || "").trim(),
+          challengeId: item.challengeId || "",
+          challengeLetter: challengeLetters.includes(item.challengeLetter || item.letter) ? (item.challengeLetter || item.letter) : "",
+          challengeName: String(item.challengeName || "").trim(),
+          multiplier: ruleMultiplier(item),
+          resultText: String(item.resultText || "").trim(),
+          createdAt: item.createdAt || new Date().toISOString(),
+          dueAt: item.dueAt || new Date(Date.now() + 86400000).toISOString(),
+          completedAt: item.completedAt || null,
+          status: status
+        };
+      }).filter(function(item) { return item.ruleText || item.challengeName || item.resultText; });
+    }
+
+    function ruleCategoryText(category) {
+      if (category === "A") return "Yengil";
+      if (category === "B") return "Jiddiy";
+      return "Qat'iy";
+    }
+
+    function ruleCategoryHint(category) {
+      if (category === "A") return "oddiy eslatma yoki kichik shart";
+      if (category === "B") return "buzilsa ogohlantirish beradigan qoida";
+      return "buzilsa jazo yoki qayta boshlashga sabab bo'ladigan qoida";
+    }
+
+    function rulesPreviewText(rules) {
+      const count = normalizeRules(rules).length;
+      return count ? count + " ta qoida" : "Hali qoida yo'q";
+    }
+
+    function defaultPenaltyAction(category) {
+      if (category === "A") return "5 daqiqa tahlil yozish";
+      if (category === "B") return "30 daqiqa foydali ish qilish";
+      return "1 kun qat'iy tiklanish rejasi";
+    }
+
+    function penaltyPreviewText(rules) {
+      const value = normalizePenaltyRules(rules);
+      const filled = ["A", "B", "C"].filter(function(category) { return value[category]; }).length;
+      return filled + " ta kategoriya";
     }
 
     function secondsBetween(from, to) {
@@ -1092,6 +1587,8 @@ const storageKey = "asadbek-2-0-habits-v2";
       els.startedLabel.textContent = "--.--.---- --:--";
       els.selectedReason.textContent = "Yangi odat yoki maqsad qo'shilganda bu yerda sabab ko'rinadi.";
       els.reasonPreview.textContent = "Hali sabab yo'q";
+      renderRules([]);
+      renderPenaltyJournal([]);
       els.years.textContent = "0";
       els.months.textContent = "0";
       els.days.textContent = "0";
@@ -1129,15 +1626,135 @@ const storageKey = "asadbek-2-0-habits-v2";
       els.startedLabel.textContent = habit.kind === "goal" && habit.endsAt ? formatDay(new Date(habit.endsAt)) : formatDate(new Date(habit.startedAt));
       els.selectedReason.textContent = habit.reason || "Sabab hali yozilmagan.";
       els.reasonPreview.textContent = reasonPreviewText(habit.reason);
+      renderRules(habit.rules);
+      renderPenaltyJournal(habit.penaltyJournal);
       const reasonTitle = els.reasonMenu.querySelector("summary span:first-child");
       if (reasonTitle) reasonTitle.textContent = habit.kind === "goal" ? "Maqsad sababi" : "Odat boshlash sababi";
-      els.calendarTitle.textContent = habit.kind === "goal" ? "Maqsad kalendari" : "Odat kalendari";
+      const calendarTitleText = habit.kind === "goal" ? "Maqsad kalendari" : "Odat kalendari";
+      els.calendarTitle.textContent = calendarTitleText;
+      els.calendarSummaryTitle.textContent = calendarTitleText;
       els.currentMetricLabel.textContent = habit.kind === "goal" ? "Maqsadgacha qolgan vaqt" : "Hozirgi davomiylik";
       els.bestMetricLabel.textContent = habit.kind === "goal" ? "Maqsad holati" : "Eng uzun rekord";
       els.reasonMenu.open = false;
+      els.rulesMenu.open = true;
+      els.penaltyJournalMenu.open = false;
+      els.calendarMenu.open = true;
 
       renderHistoryList();
       renderCalendar();
+    }
+
+    function renderRules(rules) {
+      const normalized = normalizeRules(rules);
+      els.rulesPreview.textContent = rulesPreviewText(normalized);
+      els.rulesList.innerHTML = "";
+      if (!normalized.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty-rules";
+        empty.textContent = "Hali qonun-qoida yozilmagan.";
+        els.rulesList.appendChild(empty);
+        return;
+      }
+      normalized.forEach(function(rule, index) {
+        const challenge = challengeForRule(rule);
+        const letter = ruleChallengeLetter(rule) || "?";
+        const row = document.createElement("div");
+        row.className = "rule-card challenge-rule";
+        applyChallengePalette(row, letter);
+
+        const text = document.createElement("div");
+        text.className = "rule-text";
+        const order = document.createElement("strong");
+        order.textContent = (index + 1) + " - qoida";
+        const content = document.createElement("span");
+        content.textContent = rule.text;
+        const result = document.createElement("small");
+        result.className = "rule-result";
+        result.textContent = (challenge ? challenge.name + " | " : "") + challengeRuleResult(rule);
+        text.append(order, content, result);
+
+        const badge = document.createElement("span");
+        badge.className = "rule-badge";
+        badge.textContent = letter;
+        badge.title = challenge ? challenge.name : "Chelenj tanlanmagan";
+        applyChallengePalette(badge, letter);
+
+        const breakBtn = document.createElement("button");
+        breakBtn.type = "button";
+        breakBtn.className = "rule-break-button";
+        breakBtn.textContent = "Qoida buzildi";
+        breakBtn.addEventListener("click", function() {
+          addPenaltyFromRule(rule);
+        });
+
+        const aside = document.createElement("div");
+        aside.className = "rule-side";
+        aside.append(badge, breakBtn);
+
+        row.append(text, aside);
+        els.rulesList.appendChild(row);
+      });
+    }
+
+    function penaltyJournalPreviewText(items) {
+      const normalized = normalizePenaltyJournal(items);
+      const open = normalized.filter(function(item) { return item.status !== "done"; }).length;
+      return open ? open + " ta ochiq" : "Ochiq jazo yo'q";
+    }
+
+    function penaltyDeadlineText(item) {
+      if (item.status === "done") {
+        return item.completedAt ? "Bajarildi: " + formatDate(new Date(item.completedAt)) : "Bajarildi";
+      }
+      const now = new Date();
+      const due = new Date(item.dueAt);
+      if (due < now) return "Muddat o'tdi: " + formatDate(due);
+      return "Qoldi: " + compactDuration(secondsBetween(now, due)) + " | " + formatDate(due);
+    }
+
+    function renderPenaltyJournal(items) {
+      const normalized = normalizePenaltyJournal(items);
+      els.penaltyJournalPreview.textContent = penaltyJournalPreviewText(normalized);
+      els.penaltyJournalList.innerHTML = "";
+      if (!normalized.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty-rules";
+        empty.textContent = "Hali jazo yozuvi yo'q.";
+        els.penaltyJournalList.appendChild(empty);
+        return;
+      }
+      normalized.slice().reverse().forEach(function(item) {
+        const row = document.createElement("div");
+        row.className = "penalty-journal-card" + (item.status === "done" ? " done" : "");
+        applyChallengePalette(row, item.challengeLetter || "A");
+
+        const badge = document.createElement("span");
+        badge.className = "penalty-journal-badge";
+        badge.textContent = item.challengeLetter || "?";
+        applyChallengePalette(badge, item.challengeLetter || "A");
+
+        const main = document.createElement("div");
+        main.className = "penalty-journal-main";
+        const title = document.createElement("strong");
+        title.textContent = item.challengeName || "Chelenj";
+        const rule = document.createElement("span");
+        rule.textContent = item.ruleText || "Qoida matni yozilmagan.";
+        const meta = document.createElement("small");
+        meta.textContent = item.resultText + " | " + penaltyDeadlineText(item);
+        main.append(title, rule, meta);
+
+        const doneBtn = document.createElement("button");
+        doneBtn.type = "button";
+        doneBtn.className = "penalty-done-button";
+        doneBtn.textContent = item.status === "done" ? "Bajarilgan" : "Bajarildi";
+        doneBtn.disabled = item.status === "done";
+        doneBtn.addEventListener("click", function() {
+          completePenaltyJournalItem(item.id);
+        });
+
+        row.append(badge, main, doneBtn);
+        els.penaltyJournalList.appendChild(row);
+      });
     }
 
     function renderHistoryList() {
@@ -1331,6 +1948,9 @@ const storageKey = "asadbek-2-0-habits-v2";
         const timeTag = card.querySelector(".tag.info");
         if (item && timeTag) timeTag.textContent = item.kind === "goal" && item.endsAt ? goalProgress(item) + "%" : compactDuration(secondsBetween(new Date(item.startedAt), now));
       });
+      if (habit && els.penaltyJournalMenu && els.penaltyJournalMenu.open) {
+        renderPenaltyJournal(habit.penaltyJournal);
+      }
     }
 
     function renderAll() {
@@ -1403,6 +2023,146 @@ const storageKey = "asadbek-2-0-habits-v2";
       }
     }
 
+    function renderRuleEditor() {
+      els.ruleEditorList.innerHTML = "";
+      if (!editingRules.length) {
+        const empty = document.createElement("div");
+        empty.className = "rule-editor-empty";
+        empty.textContent = "Qoida qo'shish uchun + tugmasini bosing.";
+        els.ruleEditorList.appendChild(empty);
+        return;
+      }
+
+      editingRules.forEach(function(rule, index) {
+        const selectedChallenge = challengeForRule(rule) || challenges[0] || null;
+        if (selectedChallenge && !rule.challengeId) {
+          editingRules[index].challengeId = selectedChallenge.id;
+          editingRules[index].challengeLetter = selectedChallenge.letter;
+          editingRules[index].category = selectedChallenge.letter;
+        }
+
+        const row = document.createElement("div");
+        row.className = "rule-editor-row";
+
+        const input = document.createElement("textarea");
+        input.className = "rule-text-input";
+        input.value = rule.text || "";
+        input.placeholder = (index + 1) + " - qoida matni";
+        input.addEventListener("input", function() {
+          editingRules[index].text = input.value;
+        });
+
+        const challengeSelect = document.createElement("select");
+        challengeSelect.className = "rule-challenge-select";
+        challengeSelect.disabled = !challenges.length;
+        if (!challenges.length) {
+          const option = document.createElement("option");
+          option.textContent = "Avval chelenj yarating";
+          option.value = "";
+          challengeSelect.appendChild(option);
+        } else {
+          challenges.forEach(function(challenge) {
+            const option = document.createElement("option");
+            option.value = challenge.id;
+            option.textContent = challenge.letter + " - " + challenge.name;
+            challengeSelect.appendChild(option);
+          });
+          challengeSelect.value = selectedChallenge ? selectedChallenge.id : challenges[0].id;
+        }
+        challengeSelect.addEventListener("change", function() {
+          const challenge = challenges.find(function(item) { return item.id === challengeSelect.value; });
+          editingRules[index].challengeId = challenge ? challenge.id : "";
+          editingRules[index].challengeLetter = challenge ? challenge.letter : "";
+          editingRules[index].category = challenge ? challenge.letter : "";
+          renderRuleEditor();
+        });
+
+        const multiplier = document.createElement("input");
+        multiplier.className = "rule-multiplier";
+        multiplier.type = "number";
+        multiplier.min = "1";
+        multiplier.max = "999";
+        multiplier.value = ruleMultiplier(rule);
+        multiplier.title = "Chelenj necha marta bajariladi";
+        multiplier.addEventListener("input", function() {
+          editingRules[index].multiplier = ruleMultiplier({ multiplier: multiplier.value });
+          renderRuleEditor();
+        });
+
+        const result = document.createElement("div");
+        result.className = "rule-result-preview";
+        result.textContent = challengeRuleResult(editingRules[index]);
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "rule-remove";
+        remove.textContent = "x";
+        remove.title = "Qoidani olib tashlash";
+        remove.addEventListener("click", function() {
+          editingRules.splice(index, 1);
+          renderRuleEditor();
+        });
+
+        row.append(input, challengeSelect, multiplier, result, remove);
+        els.ruleEditorList.appendChild(row);
+      });
+    }
+
+    function addEditingRule() {
+      const challenge = challenges[0] || null;
+      editingRules.push({
+        id: createId(),
+        text: "",
+        category: challenge ? challenge.letter : "",
+        challengeId: challenge ? challenge.id : "",
+        challengeLetter: challenge ? challenge.letter : "",
+        multiplier: 1
+      });
+      renderRuleEditor();
+    }
+
+    function openRulesDialog(addBlankRule) {
+      const habit = activeHabit();
+      if (!habit) return;
+      editingRules = normalizeRules(habit.rules);
+      if (addBlankRule) {
+        const challenge = challenges[0] || null;
+        editingRules.push({
+          id: createId(),
+          text: "",
+          category: challenge ? challenge.letter : "",
+          challengeId: challenge ? challenge.id : "",
+          challengeLetter: challenge ? challenge.letter : "",
+          multiplier: 1
+        });
+      }
+      renderRuleEditor();
+      els.rulesDialog.showModal();
+    }
+
+    function closeRulesDialog() {
+      editingRules = [];
+      els.rulesDialog.close();
+    }
+
+    function saveRules() {
+      const habit = activeHabit();
+      if (!habit) return;
+      habit.rules = formRules();
+      addHistory(habit, "Qonun qoidalar yangilandi.");
+      saveHabits();
+      closeRulesDialog();
+      renderAll();
+    }
+
+    function addRuleFromDetail() {
+      openRulesDialog(true);
+    }
+
+    function formRules() {
+      return normalizeRules(editingRules);
+    }
+
     function setEntryMode(kind) {
       selectedEntryKind = kind;
       const isGoal = kind === "goal";
@@ -1459,6 +2219,46 @@ const storageKey = "asadbek-2-0-habits-v2";
       habit.history.push({ at: new Date().toISOString(), note: note });
     }
 
+    function addPenaltyFromRule(rule) {
+      const habit = activeHabit();
+      if (!habit || !rule) return;
+      const challenge = challengeForRule(rule);
+      const now = new Date();
+      const dueAt = new Date(now.getTime() + challengePenaltyLimitMinutes(rule) * 60000);
+      if (!Array.isArray(habit.penaltyJournal)) habit.penaltyJournal = [];
+      habit.penaltyJournal.push({
+        id: createId(),
+        ruleId: rule.id || "",
+        ruleText: rule.text || "",
+        challengeId: challenge ? challenge.id : (rule.challengeId || ""),
+        challengeLetter: challenge ? challenge.letter : ruleChallengeLetter(rule),
+        challengeName: challenge ? challenge.name : "Chelenj topilmadi",
+        multiplier: ruleMultiplier(rule),
+        resultText: challengeRuleResult(rule),
+        createdAt: now.toISOString(),
+        dueAt: dueAt.toISOString(),
+        completedAt: null,
+        status: "open"
+      });
+      addHistory(habit, "Qoida buzildi: " + (rule.text || "Qoida") + ". Jazo jurnaliga qo'shildi.");
+      saveHabits();
+      renderAll();
+      if (els.penaltyJournalMenu) els.penaltyJournalMenu.open = true;
+    }
+
+    function completePenaltyJournalItem(id) {
+      const habit = activeHabit();
+      if (!habit || !Array.isArray(habit.penaltyJournal)) return;
+      const item = habit.penaltyJournal.find(function(entry) { return entry.id === id; });
+      if (!item) return;
+      item.status = "done";
+      item.completedAt = new Date().toISOString();
+      addHistory(habit, "Jazo bajarildi: " + (item.resultText || item.challengeName || "Chelenj") + ".");
+      saveHabits();
+      renderAll();
+      if (els.penaltyJournalMenu) els.penaltyJournalMenu.open = true;
+    }
+
     function handleSubmit(event) {
       event.preventDefault();
       clearError();
@@ -1497,6 +2297,8 @@ const storageKey = "asadbek-2-0-habits-v2";
           startedAt: parseInputDate(els.dateInput.value),
           endsAt: selectedEntryKind === "goal" ? parseInputDate(els.goalEndInput.value) : null,
           reason: els.reasonInput.value.trim(),
+          rules: [],
+          penaltyJournal: [],
           color: selectedColor,
           icon: normalizeIcon(selectedIconValue, name),
           bestSeconds: 0,
@@ -1584,7 +2386,35 @@ const storageKey = "asadbek-2-0-habits-v2";
       renderAll();
     }
 
+    function setWorkspaceView(view) {
+      const isChallenges = view === "challenges";
+      els.plansMenuBtn.classList.toggle("active", !isChallenges);
+      els.challengesMenuBtn.classList.toggle("active", isChallenges);
+      els.plansPanel.classList.toggle("hidden", isChallenges);
+      els.challengesPanel.classList.toggle("hidden", !isChallenges);
+      if (isChallenges) {
+        renderChallengeAlphabet();
+        renderChallenges();
+      }
+    }
+
     els.addHabitBtn.addEventListener("click", function() { openHabitForm(null); });
+    els.plansMenuBtn.addEventListener("click", function() { setWorkspaceView("plans"); });
+    els.challengesMenuBtn.addEventListener("click", function() { setWorkspaceView("challenges"); });
+    els.openChallengeFormBtn.addEventListener("click", openNewChallengeForm);
+    els.cancelChallengeBtn.addEventListener("click", closeChallengeForm);
+    els.closeChallengeInfoDialog.addEventListener("click", function() { els.challengeInfoDialog.close(); });
+    els.challengeForm.addEventListener("submit", handleChallengeSubmit);
+    els.challengeMetricOptions.addEventListener("click", function(event) {
+      const button = event.target.closest("button[data-metric]");
+      if (!button) return;
+      setChallengeMetric(button.dataset.metric);
+    });
+    els.addRuleBtn.addEventListener("click", addEditingRule);
+    els.addRuleFromDetailBtn.addEventListener("click", addRuleFromDetail);
+    els.saveRulesBtn.addEventListener("click", saveRules);
+    els.cancelRulesBtn.addEventListener("click", closeRulesDialog);
+    els.closeRulesDialog.addEventListener("click", closeRulesDialog);
     els.habitModeBtn.addEventListener("click", function() { setEntryMode("habit"); });
     els.goalModeBtn.addEventListener("click", function() { setEntryMode("goal"); });
     els.form.addEventListener("submit", handleSubmit);
@@ -1614,6 +2444,11 @@ const storageKey = "asadbek-2-0-habits-v2";
       if (detailMenuOpen && !(event.target.closest && event.target.closest(".detail-tools"))) {
         setDetailMenu(false);
       }
+      if (!(event.target.closest && event.target.closest(".challenge-menu-wrap"))) {
+        document.querySelectorAll(".challenge-card-menu.open").forEach(function(item) {
+          item.classList.remove("open");
+        });
+      }
       if (!openMenuId) return;
       if (event.target.closest && event.target.closest(".habit-card")) return;
       openMenuId = null;
@@ -1622,14 +2457,50 @@ const storageKey = "asadbek-2-0-habits-v2";
 
     habits = habits.map(normalizeHabit);
     saveHabits();
+    saveChallenges();
+    els.challengeLetterInput.value = selectedChallengeLetter;
+    setChallengeMetric(selectedChallengeMetric);
+    setChallengeEditor(false);
+    renderChallengeAlphabet();
+    renderChallenges();
     renderAll();
     setInterval(renderDynamic, 1000);
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function() {
     try {
-      const registration = await navigator.serviceWorker.register('./service-worker.js?v=7');
+      const registration = await navigator.serviceWorker.register('./service-worker.js?v=48');
       await registration.update();
     } catch (error) {}
   });
 }
 
+(function themeToggleSetup() {
+  const THEME_KEY = "asadbek-2-0-theme";
+  const root = document.documentElement;
+  const button = document.getElementById("themeToggleBtn");
+
+  function applyTheme(theme) {
+    if (theme === "light") {
+      root.setAttribute("data-theme", "light");
+    } else {
+      root.setAttribute("data-theme", "dark");
+    }
+  }
+
+  let saved = "dark";
+  try {
+    saved = localStorage.getItem(THEME_KEY) || "dark";
+  } catch (error) {}
+  applyTheme(saved);
+
+  if (button) {
+    button.addEventListener("click", function() {
+      const current = root.getAttribute("data-theme") === "light" ? "light" : "dark";
+      const next = current === "light" ? "dark" : "light";
+      applyTheme(next);
+      try {
+        localStorage.setItem(THEME_KEY, next);
+      } catch (error) {}
+    });
+  }
+})();
