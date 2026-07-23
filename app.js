@@ -986,11 +986,8 @@ const storageKey = "asadbek-2-0-habits-v2";
       }
 
       let result = "Belgilanmagan";
-      const durationMinutes = totalDurationMinutes(challenge.duration);
       if (challenge.metric === "value") {
         result = formatMoney((Number(challenge.metricValue.value) || 0) * multiplier);
-      } else if (durationMinutes > 0) {
-        result = formatMinutesAsDuration(durationMinutes * multiplier);
       } else if (challenge.metric === "count") {
         result = ((Number(challenge.metricValue.count) || 1) * multiplier) + " ta";
       } else {
@@ -2468,7 +2465,7 @@ const storageKey = "asadbek-2-0-habits-v2";
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function() {
     try {
-      const registration = await navigator.serviceWorker.register('./service-worker.js?v=48');
+      const registration = await navigator.serviceWorker.register('./service-worker.js?v=49');
       await registration.update();
     } catch (error) {}
   });
