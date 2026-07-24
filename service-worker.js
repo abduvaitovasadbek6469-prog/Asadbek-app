@@ -1,4 +1,4 @@
-const CACHE_NAME = 'asadbek-2-0-v49';
+const CACHE_NAME = 'asadbek-2-0-v58';
 const APP_SHELL = ['./', './index.html', './styles.css', './manifest.webmanifest', './icons/icon-192.svg', './icons/icon-512.svg'];
 const NETWORK_FIRST = ['app.js', 'styles.css', 'service-worker.js'];
 

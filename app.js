@@ -999,15 +999,10 @@ const storageKey = "asadbek-2-0-habits-v2";
 
     function challengePenaltyLimitMinutes(rule) {
       const challenge = challengeForRule(rule);
-      const multiplier = ruleMultiplier(rule);
       if (!challenge) return 1440;
       const durationMinutes = totalDurationMinutes(challenge.duration);
-      if (durationMinutes > 0) return durationMinutes * multiplier;
-      if (challenge.metric === "time") {
-        const metricMinutes = ((Number(challenge.metricValue.hours) || 0) * 60) + (Number(challenge.metricValue.minutes) || 0);
-        if (metricMinutes > 0) return metricMinutes * multiplier;
-      }
-      return 1440 * multiplier;
+      if (durationMinutes > 0) return durationMinutes;
+      return 1440;
     }
 
     function formatPenaltyLimit(rule) {
@@ -1408,7 +1403,7 @@ const storageKey = "asadbek-2-0-habits-v2";
     function normalizePenaltyJournal(value) {
       if (!Array.isArray(value)) return [];
       return value.map(function(item) {
-        const status = item.status === "done" ? "done" : "open";
+        const status = item.status === "done" ? "done" : (item.status === "missed" ? "missed" : "open");
         return {
           id: item.id || createId(),
           ruleId: item.ruleId || "",
@@ -1421,7 +1416,10 @@ const storageKey = "asadbek-2-0-habits-v2";
           createdAt: item.createdAt || new Date().toISOString(),
           dueAt: item.dueAt || new Date(Date.now() + 86400000).toISOString(),
           completedAt: item.completedAt || null,
-          status: status
+          status: status,
+          escalated: Boolean(item.escalated),
+          notifiedHour: Boolean(item.notifiedHour),
+          notifiedUrgent: Boolean(item.notifiedUrgent)
         };
       }).filter(function(item) { return item.ruleText || item.challengeName || item.resultText; });
     }
@@ -1695,13 +1693,16 @@ const storageKey = "asadbek-2-0-habits-v2";
 
     function penaltyJournalPreviewText(items) {
       const normalized = normalizePenaltyJournal(items);
-      const open = normalized.filter(function(item) { return item.status !== "done"; }).length;
+      const open = normalized.filter(function(item) { return item.status === "open"; }).length;
       return open ? open + " ta ochiq" : "Ochiq jazo yo'q";
     }
 
     function penaltyDeadlineText(item) {
       if (item.status === "done") {
         return item.completedAt ? "Bajarildi: " + formatDate(new Date(item.completedAt)) : "Bajarildi";
+      }
+      if (item.status === "missed") {
+        return "Bajarilmadi: " + formatDate(new Date(item.dueAt));
       }
       const now = new Date();
       const due = new Date(item.dueAt);
@@ -1722,7 +1723,7 @@ const storageKey = "asadbek-2-0-habits-v2";
       }
       normalized.slice().reverse().forEach(function(item) {
         const row = document.createElement("div");
-        row.className = "penalty-journal-card" + (item.status === "done" ? " done" : "");
+        row.className = "penalty-journal-card" + (item.status === "done" ? " done" : "") + (item.status === "missed" ? " missed" : "");
         applyChallengePalette(row, item.challengeLetter || "A");
 
         const badge = document.createElement("span");
@@ -1742,9 +1743,9 @@ const storageKey = "asadbek-2-0-habits-v2";
 
         const doneBtn = document.createElement("button");
         doneBtn.type = "button";
-        doneBtn.className = "penalty-done-button";
-        doneBtn.textContent = item.status === "done" ? "Bajarilgan" : "Bajarildi";
-        doneBtn.disabled = item.status === "done";
+        doneBtn.className = "penalty-done-button" + (item.status === "missed" ? " missed" : "");
+        doneBtn.textContent = item.status === "done" ? "Bajarilgan" : (item.status === "missed" ? "Bajarilmadi" : "Bajarildi");
+        doneBtn.disabled = item.status === "done" || item.status === "missed";
         doneBtn.addEventListener("click", function() {
           completePenaltyJournalItem(item.id);
         });
@@ -1921,7 +1922,100 @@ const storageKey = "asadbek-2-0-habits-v2";
       renderAll();
     }
 
+    function notificationsEnabled() {
+      try {
+        return localStorage.getItem("asadbek-2-0-notify") === "on" && typeof Notification !== "undefined" && Notification.permission === "granted";
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function sendAppNotification(title, body) {
+      if (!notificationsEnabled()) return;
+      const options = { body: body, icon: "./icon-192.svg", badge: "./icon-192.svg" };
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(function(registration) {
+          registration.showNotification(title, options);
+        }).catch(function() {
+          try { new Notification(title, options); } catch (error) {}
+        });
+      } else {
+        try { new Notification(title, options); } catch (error) {}
+      }
+    }
+
+    function checkPenaltyReminders() {
+      if (!notificationsEnabled()) return;
+      const now = new Date();
+      let changed = false;
+      habits.forEach(function(habit) {
+        if (!Array.isArray(habit.penaltyJournal)) return;
+        habit.penaltyJournal.forEach(function(item) {
+          if (item.status !== "open") return;
+          const remainingSeconds = secondsBetween(now, new Date(item.dueAt));
+          if (remainingSeconds <= 0) return;
+          if (!item.notifiedHour && remainingSeconds <= 3600) {
+            sendAppNotification("Jazo muddati yaqinlashmoqda", (item.challengeName || "Jazo") + " - taxminan 1 soat qoldi.");
+            item.notifiedHour = true;
+            changed = true;
+          }
+          if (!item.notifiedUrgent && remainingSeconds <= 600) {
+            sendAppNotification("Diqqat! Jazo muddati tugayapti", (item.challengeName || "Jazo") + " - 10 daqiqadan kam vaqt qoldi.");
+            item.notifiedUrgent = true;
+            changed = true;
+          }
+        });
+      });
+      if (changed) saveHabits();
+    }
+
+    function escalateOverduePenalties() {
+      const now = new Date();
+      let changed = false;
+      habits.forEach(function(habit) {
+        if (!Array.isArray(habit.penaltyJournal)) return;
+        const toAdd = [];
+        habit.penaltyJournal.forEach(function(item) {
+          if (item.status === "done" || item.status === "missed" || item.escalated) return;
+          if (new Date(item.dueAt) >= now) return;
+          const newMultiplier = Math.min(999, (Number(item.multiplier) || 1) * 2);
+          const syntheticRule = {
+            challengeId: item.challengeId,
+            challengeLetter: item.challengeLetter,
+            multiplier: newMultiplier
+          };
+          const newDueAt = new Date(now.getTime() + challengePenaltyLimitMinutes(syntheticRule) * 60000);
+          toAdd.push({
+            id: createId(),
+            ruleId: item.ruleId || "",
+            ruleText: (item.ruleText || "Qoida") + " (muddat o'tgani uchun 2 barobar)",
+            challengeId: item.challengeId,
+            challengeLetter: item.challengeLetter,
+            challengeName: item.challengeName,
+            multiplier: newMultiplier,
+            resultText: challengeRuleResult(syntheticRule),
+            createdAt: now.toISOString(),
+            dueAt: newDueAt.toISOString(),
+            completedAt: null,
+            status: "open",
+            escalated: false
+          });
+          item.status = "missed";
+          item.escalated = true;
+          changed = true;
+        });
+        if (toAdd.length) {
+          habit.penaltyJournal.push.apply(habit.penaltyJournal, toAdd);
+          addHistory(habit, "Muddat o'tgani uchun jazo ikki barobarga oshirildi.");
+        }
+      });
+      if (changed) saveHabits();
+      return changed;
+    }
+
     function renderDynamic() {
+      checkPenaltyReminders();
+      const escalated = escalateOverduePenalties();
       const habit = activeHabit();
       if (!habit) { renderEmptyDetail(); return; }
       const started = new Date(habit.startedAt);
@@ -1947,6 +2041,8 @@ const storageKey = "asadbek-2-0-habits-v2";
       });
       if (habit && els.penaltyJournalMenu && els.penaltyJournalMenu.open) {
         renderPenaltyJournal(habit.penaltyJournal);
+      } else if (habit && escalated && els.penaltyJournalPreview) {
+        els.penaltyJournalPreview.textContent = penaltyJournalPreviewText(normalizePenaltyJournal(habit.penaltyJournal));
       }
     }
 
@@ -2345,6 +2441,8 @@ const storageKey = "asadbek-2-0-habits-v2";
       const previousSeconds = secondsBetween(new Date(habit.startedAt), now);
       habit.bestSeconds = Math.max(habit.bestSeconds || 0, previousSeconds);
       habit.startedAt = now.toISOString();
+      habit.calendar = {};
+      habit.penaltyJournal = [];
       addHistory(habit, "Odat qayta boshlandi.");
       saveHabits();
       renderAll();
@@ -2465,7 +2563,7 @@ const storageKey = "asadbek-2-0-habits-v2";
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function() {
     try {
-      const registration = await navigator.serviceWorker.register('./service-worker.js?v=49');
+      const registration = await navigator.serviceWorker.register('./service-worker.js?v=58');
       await registration.update();
     } catch (error) {}
   });
@@ -2500,4 +2598,53 @@ if ('serviceWorker' in navigator) {
       } catch (error) {}
     });
   }
+})();
+
+(function notifyToggleSetup() {
+  const NOTIFY_KEY = "asadbek-2-0-notify";
+  const button = document.getElementById("notifyToggleBtn");
+  if (!button) return;
+
+  function refreshButtonState() {
+    let on = false;
+    try {
+      on = localStorage.getItem(NOTIFY_KEY) === "on" && typeof Notification !== "undefined" && Notification.permission === "granted";
+    } catch (error) {}
+    button.classList.toggle("active", on);
+    button.title = on ? "Bildirishnomalar yoqilgan (o'chirish uchun bosing)" : "Bildirishnomalarni yoqish";
+  }
+
+  refreshButtonState();
+
+  button.addEventListener("click", function() {
+    if (typeof Notification === "undefined") {
+      alert("Bu qurilma/brauzer bildirishnomalarni qo'llab-quvvatlamaydi.");
+      return;
+    }
+    let isOn = false;
+    try { isOn = localStorage.getItem(NOTIFY_KEY) === "on"; } catch (error) {}
+
+    if (isOn) {
+      try { localStorage.setItem(NOTIFY_KEY, "off"); } catch (error) {}
+      refreshButtonState();
+      return;
+    }
+
+    if (Notification.permission === "granted") {
+      try { localStorage.setItem(NOTIFY_KEY, "on"); } catch (error) {}
+      refreshButtonState();
+      return;
+    }
+
+    if (Notification.permission === "denied") {
+      alert("Bildirishnomalarga ruxsat brauzer sozlamalarida bloklangan. Iltimos, sayt sozlamalaridan ruxsat bering.");
+      refreshButtonState();
+      return;
+    }
+
+    Notification.requestPermission().then(function(permission) {
+      try { localStorage.setItem(NOTIFY_KEY, permission === "granted" ? "on" : "off"); } catch (error) {}
+      refreshButtonState();
+    });
+  });
 })();

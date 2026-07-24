@@ -2178,7 +2178,17 @@
     .penalty-journal-list {
       display: grid;
       gap: 10px;
+      max-height: 372px;
+      overflow-y: auto;
+      padding-right: 4px;
     }
+
+    .penalty-journal-list::-webkit-scrollbar { width: 8px; }
+    .penalty-journal-list::-webkit-scrollbar-thumb {
+      background: var(--line-strong);
+      border-radius: 999px;
+    }
+    .penalty-journal-list::-webkit-scrollbar-track { background: transparent; }
 
     .penalty-journal-card {
       display: grid;
@@ -2197,6 +2207,12 @@
     .penalty-journal-card.done {
       opacity: .68;
       background: linear-gradient(180deg, var(--panel), var(--panel-alt));
+    }
+
+    .penalty-journal-card.missed {
+      border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
+      border-left-color: var(--danger);
+      background: linear-gradient(180deg, var(--panel), var(--danger-soft));
     }
 
     .penalty-journal-badge {
@@ -2241,9 +2257,9 @@
 
     .penalty-done-button {
       min-height: 38px;
-      border: 1px solid rgba(214, 84, 74, .22);
+      border: 1px solid color-mix(in srgb, var(--success) 40%, transparent);
       border-radius: 8px;
-      background: var(--accent);
+      background: var(--success);
       color: var(--on-color);
       font-weight: 950;
       cursor: pointer;
@@ -2254,6 +2270,12 @@
       background: var(--line-strong);
       color: var(--muted);
       border-color: var(--line-strong);
+    }
+
+    .penalty-done-button.missed:disabled {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: var(--danger-soft);
     }
 
     .rules-editor-list-wide .rule-editor-row {
@@ -2786,6 +2808,21 @@
       place-items: center;
       cursor: pointer;
       flex: none;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: none;
+    }
+
+    .notify-icon { width: 20px; height: 20px; }
+
+    #notifyToggleBtn.active {
+      color: var(--gold);
+      border-color: color-mix(in srgb, var(--gold) 40%, var(--line));
+      background: var(--gold-soft);
     }
 
     .theme-toggle:hover {
