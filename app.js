@@ -1631,9 +1631,9 @@ const storageKey = "asadbek-2-0-habits-v2";
       els.currentMetricLabel.textContent = habit.kind === "goal" ? "Maqsadgacha qolgan vaqt" : "Hozirgi davomiylik";
       els.bestMetricLabel.textContent = habit.kind === "goal" ? "Maqsad holati" : "Eng uzun rekord";
       els.reasonMenu.open = false;
-      els.rulesMenu.open = true;
+      els.rulesMenu.open = false;
       els.penaltyJournalMenu.open = false;
-      els.calendarMenu.open = true;
+      els.calendarMenu.open = false;
 
       renderHistoryList();
       renderCalendar();
@@ -2563,7 +2563,7 @@ const storageKey = "asadbek-2-0-habits-v2";
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function() {
     try {
-      const registration = await navigator.serviceWorker.register('./service-worker.js?v=58');
+      const registration = await navigator.serviceWorker.register('./service-worker.js?v=59');
       await registration.update();
     } catch (error) {}
   });
