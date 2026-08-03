@@ -91,7 +91,6 @@
     }
 
     .workspace-menu {
-      grid-column: 2;
       min-height: 48px;
       display: flex;
       align-items: center;
@@ -157,12 +156,38 @@
     }
 
     .list-panel {
-      grid-row: span 2;
+      grid-column: 1;
     }
+
+    .workspace-column {
+      grid-column: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: max-content max-content;
+      align-content: start;
+      align-self: start;
+      gap: 12px;
+      min-width: 0;
+      height: max-content;
+    }
+
+    .workspace-column > .workspace-menu,
+    .workspace-column > .detail-panel,
+    .workspace-column > .challenges-panel {
+      position: static;
+      grid-column: 1;
+      margin: 0;
+      transform: none;
+    }
+
+    .workspace-column > .workspace-menu { grid-row: 1; }
+
+    .workspace-column > .detail-panel,
+    .workspace-column > .challenges-panel { grid-row: 2; }
 
     .detail-panel,
     .challenges-panel {
-      grid-column: 2;
+      margin-top: 0;
     }
 
     .challenges-panel {
@@ -597,11 +622,20 @@
       box-shadow: 0 10px 26px rgba(0, 0, 0, .05);
     }
 
-    .rules-menu { --panel-accent: var(--gold); }
+    .commitment-tabs > .reason-menu,
+    .commitment-tabs > .rules-menu,
+    .commitment-tabs > .calendar-menu,
+    .commitment-tabs > .penalty-menu {
+      width: 100%;
+      margin: 0;
+    }
+
+    .reason-menu { --panel-accent: var(--gold); }
+    .rules-menu { --panel-accent: #77b255; }
+    .calendar-menu { --panel-accent: #16845f; }
 
     .penalty-menu {
       --panel-accent: var(--danger);
-      margin-top: 10px;
       display: block;
       border: 1px solid var(--line);
       border-left: 4px solid var(--panel-accent);
@@ -626,11 +660,6 @@
     }
 
     .penalty-menu summary::-webkit-details-marker { display: none; }
-
-    .calendar-menu {
-      --panel-accent: var(--gold);
-      margin-top: 10px;
-    }
 
     .reason-menu summary,
     .rules-menu summary,
@@ -735,6 +764,13 @@
     .penalty-body {
       border-top: 1px solid var(--line);
       padding: 14px;
+    }
+
+    .reason-menu:not([open]) .reason-body,
+    .rules-menu:not([open]) .rules-body,
+    .penalty-menu:not([open]) .penalty-body,
+    .calendar-menu:not([open]) .calendar-wrap {
+      display: none !important;
     }
 
     .rules-list {
@@ -2683,9 +2719,16 @@
         font-size: 16px;
       }
       .topbar, .selected-head { display: grid; }
-      .layout { grid-template-columns: 1fr; }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .workspace-column {
+        grid-column: auto;
+      }
       .list-panel, .detail-panel, .challenges-panel {
-        grid-column: 1;
+        grid-column: auto;
+        grid-row: auto;
+        margin-top: 0;
       }
       .list-panel {
         grid-row: auto;

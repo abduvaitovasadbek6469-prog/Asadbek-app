@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@500;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=59">
+  <link rel="stylesheet" href="./styles.css?v=65">
 </head>
 <body>
 <main>
@@ -50,10 +50,11 @@
         <div class="empty-state" id="emptyState">Hali ro'yxat yo'q. Yangi odat yoki maqsad qo'shish uchun + tugmasini bosing.</div>
       </aside>
 
-      <nav class="workspace-menu" aria-label="Asosiy bo'limlar">
-        <button class="workspace-tab active" id="plansMenuBtn" type="button">Rejalar</button>
-        <button class="workspace-tab" id="challengesMenuBtn" type="button">Chelenjlar</button>
-      </nav>
+      <div class="workspace-column">
+        <nav class="workspace-menu" aria-label="Asosiy bo'limlar">
+          <button class="workspace-tab active" id="plansMenuBtn" type="button">Rejalar</button>
+          <button class="workspace-tab" id="challengesMenuBtn" type="button">Chelenjlar</button>
+        </nav>
 
       <section class="panel detail-panel" id="plansPanel">
         <div class="selected-head">
@@ -110,15 +111,7 @@
             </div>
           </details>
 
-          <details class="penalty-menu" id="penaltyJournalMenu">
-            <summary><span>Jazolar jurnali</span><span class="reason-preview" id="penaltyJournalPreview">0 ta ochiq</span></summary>
-            <div class="penalty-body">
-              <div class="penalty-journal-list" id="penaltyJournalList"></div>
-            </div>
-          </details>
-        </div>
-
-        <details class="calendar-menu" id="calendarMenu">
+          <details class="calendar-menu" id="calendarMenu">
           <summary><span id="calendarSummaryTitle">Odat kalendari</span></summary>
           <section class="calendar-card" aria-label="Odat kalendari">
             <div class="calendar-head">
@@ -154,7 +147,15 @@
               <p id="reportNote">Kalendar ichidan biror sanani tanlang.</p>
             </div>
           </section>
-        </details>
+          </details>
+
+          <details class="penalty-menu" id="penaltyJournalMenu">
+            <summary><span>Jazolar jurnali</span><span class="reason-preview" id="penaltyJournalPreview">0 ta ochiq</span></summary>
+            <div class="penalty-body">
+              <div class="penalty-journal-list" id="penaltyJournalList"></div>
+            </div>
+          </details>
+        </div>
       </section>
 
       <section class="panel challenges-panel hidden" id="challengesPanel" aria-label="Chelenjlar">
@@ -242,6 +243,7 @@
           </div>
         </div>
       </section>
+      </div>
     </div>
   </main>
 
@@ -405,6 +407,6 @@
     </div>
   </dialog>
 
-  <script src="./app.js?v=59"></script>
+  <script src="./app.js?v=65"></script>
 </body>
 </html>
